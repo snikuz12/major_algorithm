@@ -1,30 +1,26 @@
 package A2dfs;
 
 public class D4피로도 {
+    static boolean[] visited;
+    static int max = Integer.MIN_VALUE;
+
     public static void main(String[] args) {
-
-    }
-}
-
-
-class Solution {
-    private int maxDungeons;
-
-    public int solution(int k, int[][] dungeons) {
-        maxDungeons = 0;
-        boolean[] visited = new boolean[dungeons.length];
-        dfs(k, dungeons, visited, 0);
-        return maxDungeons;
+        int[][] dungeons = {{80, 20}, {50, 40}, {30, 10}};
+        visited = new boolean[dungeons.length];
+        int k = 80;
+        dfs(dungeons, k, 0);
+        System.out.println("최대 탐험 가능한 던전 수: " + max);
     }
 
-    private void dfs(int k, int[][] dungeons, boolean[] visited, int count) {
-        maxDungeons = Math.max(maxDungeons, count);
-
+    static void dfs(int[][] dungeons, int k, int count) {
+        if (count > max) {
+            max = count;
+        }
         for (int i = 0; i < dungeons.length; i++) {
-            if (!visited[i] && k >= dungeons[i][0]) {  // 방문하지 않았고 최소 필요 피로도 이상인 경우
+            if (!visited[i] && k >= dungeons[i][0]) {
                 visited[i] = true;
-                dfs(k - dungeons[i][1], dungeons, visited, count + 1);  // 소모 피로도만큼 피로도 감소
-                visited[i] = false;
+                dfs(dungeons, k - dungeons[i][1], count + 1);
+                visited[i] = false; // 백트래킹
             }
         }
     }
